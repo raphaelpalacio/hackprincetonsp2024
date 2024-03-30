@@ -4,6 +4,7 @@ from core.content_generation import instance_to_json
 from core.content_generation import generate_json_ld
 from core.content_generation import generate_twitter_card
 from core.content_generation import generate_open_graph
+from core.content_generation import generate_meta_tags
 
 import json
 
@@ -31,7 +32,13 @@ class SongTestCase(TestCase):
     #     twitter_card_dict=generate_twitter_card(song)
     #     print(twitter_card_dict)
     
-    def test_generate_open_graph(self):
+    #passed
+    # def test_generate_open_graph(self):
+    #     song = Song.objects.get(title="test song")
+    #     open_graph_dict=generate_open_graph(song)
+    #     print(open_graph_dict)
+
+    def test_meta_tags(self):
         song = Song.objects.get(title="test song")
-        open_graph_dict=generate_open_graph(song)
-        print(open_graph_dict)
+        meta_tags_dict=generate_meta_tags(song)
+        print(meta_tags_dict)
