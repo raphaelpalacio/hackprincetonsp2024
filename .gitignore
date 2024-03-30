@@ -1,4 +1,6 @@
 .DS_Store
+# Rafael's virtual environment
 env
 db.sqlite3
-*/__pycache__
+**/__pycache__/
+.env
