@@ -17,8 +17,7 @@ def generate_json_ld(instance):  # this function time cost 5s, return a dictiona
     prompt = "Generate a json ld using a schema from schema.org that is most appropriate for this json data: " + serialized_instance + "Your respones should only be the json_ld as as tring and nothing else, which is start with { end with }."
     json_ld_str=generate_content(prompt)
     json_ld_dict = json.loads(json_ld_str)
-    print(json_ld_dict) 
-    return json_ld_str
+    return json_ld_dict
 
 
 def generate_meta_tags(instance):
@@ -33,5 +32,6 @@ def generate_open_graph(instance):
 
 
 def generate_twitter_card(instance):
-    data = instance.json_ld.data
+    # make the instance.json_ld which is dictionary to a string
+    data=str(instance.json_ld)
     return data
