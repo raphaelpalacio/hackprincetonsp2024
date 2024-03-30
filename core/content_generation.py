@@ -24,7 +24,7 @@ def instance_to_json(instance):
 
 def generate_open_graph(instance):
     serialized_instance = instance_to_json(instance)
-    prompt =f"Generate a dictionary,  with keys are name and value are the content that are appropriate for a Facebook card which also know OpenGraph html block , using the serialized data: {serialized_instance} Your response should only be a dictionary start with only one '{' , end with only one  '}' , based on ogp.me, the dictionary do not include any comments,and None value.  both keys and values using double quote.    And og:title, og:type og:image og:url are 4 required properties for every page . and You response as much as possible, but dont impute any value except the 4 properties above which are not in the serialized data."
+    prompt =f"Generate a dictionary,  with keys are name and value are the content that are appropriate for a Facebook card which also know OpenGraph html block , using the serialized data: {serialized_instance} Your response should only be a dictionary start with only one '{' , end with only one  '}' , based on ogp.me, the dictionary do not include any comments,and None value.  both keys and values using double quote.    And og:title, og:type og:image og:url are 4 required properties for every page . and You response as much as possible, but dont impute anypy value except the 4 properties above which are not in the serialized data."
     open_graph_str=generate_content(prompt)
     open_graph_dict = json.loads(open_graph_str)
     print(open_graph_dict)
