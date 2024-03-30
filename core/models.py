@@ -1,3 +1,5 @@
+import json
+
 from django.db import models
 
 from .content_generation import (generate_json_ld, generate_meta_tags,
@@ -26,6 +28,9 @@ class WithJSON_LD(models.Model):
 
         super().save(*args, **kwargs)
 
+    def get_json_ld(self):
+        return f'<script type="application/ld+json">{json.dumps(self.json_ld.data)}</script>'
+
     class Meta:
         abstract = True
 
@@ -39,18 +44,25 @@ class WithMetaTags(models.Model):
         MetaTags, on_delete=models.CASCADE, null=True)
 
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
         if not self.id:
             data = generate_meta_tags(self)
             self.meta_tags = MetaTags.objects.create(data=data)
             self.meta_tags.save()
-            self.save()
 
         else:
             meta_tags = self.meta_tags
             data = generate_meta_tags(self)
             meta_tags.data = data
             meta_tags.save()
+
+        super().save(*args, **kwargs)
+
+    def get_meta_tags(self):
+        output = ""
+        for key, value in self.meta_tags.data.items():
+            output += f'<meta name="{key}" content="{value}">\n'
+
+        return output
 
     class Meta:
         abstract = True
@@ -65,18 +77,25 @@ class WithOpenGraph(models.Model):
         OpenGraph, on_delete=models.CASCADE, null=True)
 
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
         if not self.id:
             data = generate_open_graph(self)
             self.open_graph = OpenGraph.objects.create(data=data)
             self.open_graph.save()
-            self.save()
 
         else:
             open_graph = self.open_graph
             data = generate_open_graph(self)
             open_graph.data = data
             open_graph.save()
+
+        super().save(*args, **kwargs)
+
+    def get_open_graph(self):
+        output = ""
+        for key, value in self.open_graph.data.items():
+            output += f'<meta property="og:{key}" content="{value}">\n'
+
+        return output
 
     class Meta:
         abstract = True
@@ -103,6 +122,13 @@ class WithTwitterCard(models.Model):
             twitter_card.save()
 
         super().save(*args, **kwargs)
+
+    def get_twitter_card(self):
+        output = ""
+        for key, value in self.twitter_card.data.items():
+            output += f'<meta name="twitter:{key}" content="{value}">\n'
+
+        return output
 
     class Meta:
         abstract = True
