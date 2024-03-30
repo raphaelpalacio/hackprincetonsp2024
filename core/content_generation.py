@@ -23,7 +23,12 @@ def instance_to_json(instance):
     return serializers.serialize("json", [instance])#return a string of json data
 
 def generate_open_graph(instance):
-    pass
+    serialized_instance = instance_to_json(instance)
+    prompt =f"Generate a dictionary,  with keys are name and value are the content that are appropriate for a Facebook card which also know OpenGraph html block , using the serialized data: {serialized_instance} Your response should only be a dictionary start with only one '{' , end with only one  '}' , based on ogp.me, the dictionary do not include any comments,and None value.  both keys and values using double quote.    And og:title, og:type og:image og:url are 4 required properties for every page . and You response as much as possible, but dont impute any value except the 4 properties above which are not in the serialized data."
+    open_graph_str=generate_content(prompt)
+    open_graph_dict = json.loads(open_graph_str)
+    print(open_graph_dict)
+    return open_graph_dict
 
 
 def generate_twitter_card(instance):
@@ -32,5 +37,4 @@ def generate_twitter_card(instance):
     prompt =f"Generate a dictionary,  with keys are the names and values are the content that are appropriate for a twitter card html block , using the serialized data: {serialized_instance} Your response should only be a dictionary starts with only one '{' , end with only one  '}' , without any comments, without null value, both keys and values using double quote.     "
     twitter_card_str=generate_content(prompt)
     witter_card_dict = json.loads(twitter_card_str)
-    print(witter_card_dict)
     return witter_card_dict

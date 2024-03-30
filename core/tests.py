@@ -3,6 +3,7 @@ from core.models import Song
 from core.content_generation import instance_to_json
 from core.content_generation import generate_json_ld
 from core.content_generation import generate_twitter_card
+from core.content_generation import generate_open_graph
 
 import json
 
@@ -29,3 +30,8 @@ class SongTestCase(TestCase):
     #     song = Song.objects.get(title="test song")
     #     twitter_card_dict=generate_twitter_card(song)
     #     print(twitter_card_dict)
+    
+    def test_generate_open_graph(self):
+        song = Song.objects.get(title="test song")
+        open_graph_dict=generate_open_graph(song)
+        print(open_graph_dict)
