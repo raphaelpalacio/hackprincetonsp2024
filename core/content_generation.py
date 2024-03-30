@@ -8,11 +8,6 @@ import os
 # https://stackoverflow.com/questions/77727695/google-gemini-api-error-defaultcredentialserror-your-default-credentials-were
 
 def generate_json_ld(instance):  # this function time cost 5s, return a dictionary instance
-    GOOGLE_API_KEY = os.getenv('GEMINI_API_KEY')
-    genai.configure(api_key=GOOGLE_API_KEY)
-
-    model = genai.GenerativeModel('gemini-pro')
-
     serialized_instance = instance_to_json(instance)
     prompt = "Generate a json ld using a schema from schema.org that is most appropriate for this json data: " + serialized_instance + "Your respones should only be the json_ld as as tring and nothing else, which is start with { end with }."
     json_ld_str=generate_content(prompt)
@@ -33,5 +28,9 @@ def generate_open_graph(instance):
 
 def generate_twitter_card(instance):
     # make the instance.json_ld which is dictionary to a string
-    data=str(instance.json_ld)
-    return data
+    serialized_instance = instance_to_json(instance)
+    prompt =f"Generate a dictionary,  with keys are the names and values are the content that are appropriate for a twitter card html block , using the serialized data: {serialized_instance} Your response should only be a dictionary starts with only one '{' , end with only one  '}' , without any comments, without null value, both keys and values using double quote.     "
+    twitter_card_str=generate_content(prompt)
+    witter_card_dict = json.loads(twitter_card_str)
+    print(witter_card_dict)
+    return witter_card_dict

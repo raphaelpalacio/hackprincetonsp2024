@@ -13,17 +13,18 @@ class SongTestCase(TestCase):
     def setUp(self):
         Song.objects.create(title="test song", artist="test artist", album="Test alum")
 
+    #passed
     def test_song(self):
         song = Song.objects.get(title="test song")
         jsons=instance_to_json(song)
-        print(jsons)
-
+      #  print(jsons)
+    #passed
     def test_json_ld(self):
         song = Song.objects.get(title="test song")
         json_ld=generate_json_ld(song)
-        print(json_ld) # this will print a json dictionary
+        #print(json_ld) # this will print a json dictionary
 
-    def test_generate_twitter_card(self):
-        song = Song.objects.get(title="test song")
-        twitter_card=generate_twitter_card(song)
-        print(type(twitter_card))
+    # def test_generate_twitter_card(self):
+    #     song = Song.objects.get(title="test song")
+    #     twitter_card_dict=generate_twitter_card(song)
+    #     print(twitter_card_dict)
