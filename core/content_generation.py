@@ -1,3 +1,4 @@
+
 from .gemini import generate_content #original way
 import google.generativeai as genai
 from django.core import serializers
@@ -6,6 +7,12 @@ import os
 
 #two ways to use gemini generate json_ld ,original way and using Vertex AI SDK 
 # https://stackoverflow.com/questions/77727695/google-gemini-api-error-defaultcredentialserror-your-default-credentials-were
+
+def instance_to_json(instance):
+    # return a string of json data
+    return serializers.serialize("json", [instance])
+
+# this function time cost 5s, return a dictionary instance
 
 def generate_json_ld(instance):  # this function time cost 5s, return a dictionary instance
     serialized_instance = instance_to_json(instance)
@@ -42,3 +49,25 @@ def generate_twitter_card(instance):
     twitter_card_str=generate_content(prompt)
     witter_card_dict = json.loads(twitter_card_str)
     return witter_card_dict
+
+def generate_seo_content(instance):
+    # a prompt that asks an LLM to generate SEO content based off of the instance. The prompt should use the json_ld, meta_tags, open_graph, and twitter_card attributes of the instance to prompt the LLM to generate SEO optimized content. The content must include one H1 tag that contains the most relevant keywords in the instance data. The content generated must contain at least one H2 tag. The content must include at least 500 total words of content separated in as many paragraph tags as necessary and divided into whatever heading structure necessary. The LLM output should be in a valid HTML format using heading tags and paragraph tags only.
+    prompt = """Generate SEO content based off of the instance data.
+        The content must include one H1 tag that contains the most relevant keywords in the instance data.
+        The content generated must contain at least one H2 tag.
+        The content must include at least 500 total words of content separated in as many paragraph tags as necessary and divided into whatever heading structure necessary.
+        The LLM output should be in a valid HTML format using heading tags and paragraph tags only.
+        Here is the instance data: """
+
+    if hasattr(instance, 'json_ld') and instance.json_ld is not None:
+        prompt += str(getattr(instance.json_ld, 'data', ''))
+    if hasattr(instance, 'meta_tags') and instance.meta_tags is not None:
+        prompt += str(getattr(instance.meta_tags, 'data', ''))
+    if hasattr(instance, 'open_graph') and instance.open_graph is not None:
+        prompt += str(getattr(instance.open_graph, 'data', ''))
+    if hasattr(instance, 'twitter_card') and instance.twitter_card is not None:
+        prompt += str(getattr(instance.twitter_card, 'data', ''))
+
+    data = generate_content(prompt)
+
+    return data
