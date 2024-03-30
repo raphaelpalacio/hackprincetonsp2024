@@ -24,6 +24,7 @@ class SongTestCase(TestCase):
         json_ld=generate_json_ld(song)
         #print(json_ld) # this will print a json dictionary
 
+    #passed
     # def test_generate_twitter_card(self):
     #     song = Song.objects.get(title="test song")
     #     twitter_card_dict=generate_twitter_card(song)
