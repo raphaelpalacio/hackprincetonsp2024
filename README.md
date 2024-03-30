@@ -16,3 +16,5 @@ Contains the main Django project configs and info
 core/
 
 The app we will develop. It is convention to name the main app in your project `core`.
+
+_Discord webhook test_
