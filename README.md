@@ -2,16 +2,17 @@
 
 Execute:
 
-1. `source env/bin/activate`
-2. `pip install -r requirements.txt`
-3. `python manage.py makemigrations`
-4. `python manage.py migrate`
+1. `python3 -m venv env` create a Python virtual environment
+2. `source env/bin/activate` activate virtual environment
+3. `pip install -r requirements.txt` install dependencies
+4. `python manage.py makemigrations`
+5. `python manage.py migrate`
 
 # Project Structure
 
 webtune/
 
-Contains the main Django project configs and info
+It contains the main Django project configs and info
 
 core/
 
