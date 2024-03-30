@@ -8,6 +8,9 @@ Execute:
 4. `python manage.py makemigrations`
 5. `python manage.py migrate`
 
+Setting Environmental Variable(MAC):
+`Export GEMINI_API_KEY="Your GEMINI KEY"`
+
 # Project Structure
 
 webtune/
