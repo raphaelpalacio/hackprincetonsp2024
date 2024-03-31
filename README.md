@@ -1,4 +1,4 @@
-# Getting Started
+# Getting Started With Project
 
 Execute:
 
@@ -11,7 +11,7 @@ Execute:
 Setting Environmental Variable(MAC):
 `Export GEMINI_API_KEY="Your GEMINI KEY"`
 
-# Project Structure
+## Project Structure
 
 webtune/
 
@@ -20,5 +20,3 @@ It contains the main Django project configs and info
 core/
 
 The app we will develop. It is convention to name the main app in your project `core`.
-
-_Discord webhook test_
