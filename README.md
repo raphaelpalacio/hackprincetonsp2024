@@ -1,4 +1,10 @@
-# Getting Started With Project
+# Webtune
+
+A Python library that harnesses the efficiency and richness of semantic functions to optimize website SEO performance, leveraging the power of Gemini.
+
+## Description:
+
+Elevate your Django web application effortlessly with custom actions tailored to rejuvenate JSON-LD, meta tags, Open Graph tags, Twitter Card tags, SEO content, and analyzed images, seamlessly accessible and controllable via the intuitive Django admin interface. Guaranteeing search engine crawlers access to precise and pertinent information about your website's content semantically. This feature not only amplifies organic traffic but also empowers your site to effectively engage with search engine algorithms - amplifying its online visibility and discoverability like never before.
 
 Execute:
 
