@@ -13,7 +13,6 @@ The models in this file include:
 - SEOContent: A model for storing SEO content data.
 - WithSEOContent: An abstract model that provides functionality for generating and managing SEO content data.
 - AnalyzedImage: A model for storing analyzed image data, including alt text and JSON-LD.
-- Song: An example model that demonstrates the usage of the abstract models for content generation.
 
 Each abstract model provides a `save` method that generates the corresponding content data if it does not exist, and updates the data if it already exists. The generated content is based on the attributes of the model instance.
 
@@ -97,14 +96,36 @@ class WithJSON_LD(models.Model):
 
 
 class MetaTags(models.Model):
+    """
+    Represents the metadata tags associated with a specific model instance.
+    """
+
     data = models.JSONField()
 
 
 class WithMetaTags(models.Model):
+    """
+    A base abstract model that provides functionality for managing meta tags.
+
+    This class should be inherited by other models that require meta tags.
+    """
+
     meta_tags = models.OneToOneField(
         MetaTags, on_delete=models.CASCADE, null=True)
 
     def save(self, *args, **kwargs):
+        """
+        Overrides the save method to handle the creation and updating of meta tags.
+
+        If the `meta_tags` field is not set, it creates a new `MetaTags` object
+        and associates it with the current instance. Otherwise, it updates the
+        existing `MetaTags` object with new data.
+
+        Args:
+            *args: Additional positional arguments.
+            **kwargs: Additional keyword arguments.
+        """
+
         if not self.meta_tags:
             print("my meta tag created")
             data = generate_meta_tags(self)
@@ -121,6 +142,13 @@ class WithMetaTags(models.Model):
         super().save(*args, **kwargs)
 
     def get_meta_tags(self):
+        """
+        Generates the HTML meta tags based on the data stored in the `meta_tags` field.
+
+        Returns:
+            str: The HTML meta tags as a string.
+        """
+
         output = ""
         for key, value in self.meta_tags.data.items():
             output += f'<meta name="{key}" content="{value}">\n'
