@@ -62,9 +62,15 @@ class JsonLD(models.Model):
 
         related_object = get_related_object(self)
         json_string = instance_to_json(related_object)
-        json_ld = generate_content(self.prompt + json_string)
-        print("my json_ld", json_ld)
-        dictionary = json.loads(json_ld)
+
+        while True:
+            try:
+                json_ld = generate_content(self.prompt + json_string)
+                dictionary = json.loads(json_ld)
+                break
+            except Exception as e:
+                continue
+
         self.data = dictionary
         self.save()
 
@@ -102,8 +108,15 @@ class MetaTags(models.Model):
 
         related_object = get_related_object(self)
         json_string = instance_to_json(related_object)
-        meta_tags = generate_content(self.prompt + json_string)
-        dictionary = json.loads(meta_tags)
+
+        while True:
+            try:
+                meta_tags = generate_content(self.prompt + json_string)
+                dictionary = json.loads(meta_tags)
+                break
+            except Exception as e:
+                continue
+
         self.data = dictionary
         self.save()
 
@@ -148,8 +161,15 @@ class OpenGraph(models.Model):
 
         related_object = get_related_object(self)
         json_string = instance_to_json(related_object)
-        open_graph_tags = generate_content(self.prompt + json_string)
-        dictionary = json.loads(open_graph_tags)
+
+        while True:
+            try:
+                open_graph_tags = generate_content(self.prompt + json_string)
+                dictionary = json.loads(open_graph_tags)
+                break
+            except Exception as e:
+                continue
+
         self.data = dictionary
         self.save()
 
@@ -198,8 +218,15 @@ class TwitterCard(models.Model):
 
         related_object = get_related_object(self)
         json_string = instance_to_json(related_object)
-        twitter_card_str = generate_content(self.prompt + json_string)
-        dictionary = json.loads(twitter_card_str)
+
+        while True:
+            try:
+                twitter_card_str = generate_content(self.prompt + json_string)
+                dictionary = json.loads(twitter_card_str)
+                break
+            except Exception as e:
+                continue
+
         self.data = dictionary
         self.save()
 
@@ -333,11 +360,14 @@ class AnalyzedImage(models.Model):
 
         img = PIL.Image.open(self.image.path)
 
-        print("my old alt", self.alt)
         self.alt = generate_content(self.alt_prompt, img)
-        print("my new alt", self.alt)
 
-        json_ld_string = generate_content(self.json_ld_prompt, img)
-        self.json_ld = json.loads(json_ld_string)
+        while True:
+            try:
+                json_ld_string = generate_content(self.json_ld_prompt, img)
+                self.json_ld = json.loads(json_ld_string)
+                break
+            except Exception as e:
+                continue
 
         super(AnalyzedImage, self).save()
